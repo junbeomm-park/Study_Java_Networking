@@ -7,41 +7,29 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class ServerReceiveThread extends Thread{
-	Socket client1; // 클라이언트 1
-	Socket client2; // 클라이언트 2
+	Socket client; // 클라이언트
+	
 	//쓰레드가 생성될때 클라이언트 정보를 넘겨 받도록 작업
 	public ServerReceiveThread(Socket client) {
 		super();
-		this.client1 = client;
-		this.client2 = client;
-		
+		this.client = client;
 	}
 	
 	//클라이언트가 보내는 메시지를 읽어서 콘솔에 출력하는 실행흐름
 	@Override
 	public void run() {
-		BufferedReader in1 = null;
-		BufferedReader in2 = null;
+		BufferedReader in = null;
 		try {
-			in1 = new BufferedReader(new InputStreamReader(client1.getInputStream()));
-			in2 = new BufferedReader(new InputStreamReader(client2.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			
-			String resMsg1="";
-			String resMsg2="";
+			String resMsg="";
 			while(true) {
-				resMsg1 = in1.readLine();
-				if(resMsg1==null) {
+				resMsg = in.readLine();
+				if(resMsg==null) {
 					break;
 				}
-				System.out.println("클라이언트1 >>>>"+resMsg1);
-				
-				resMsg2 = in2.readLine();
-				if(resMsg2==null) {
-					break;
-				}
-				System.out.println("클라이언트2 >>>>"+resMsg2);
+				System.out.println("클라이언트 >>>>"+resMsg);
 			}
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
